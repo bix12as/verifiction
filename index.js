@@ -1,5 +1,18 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, Partials, EmbedBuilder } = require('discord.js');
+const express = require('express');
+
+// Create an express app to bind to a port
+const app = express();
+const port = process.env.PORT || 3000; // Use Render's PORT or default to 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello from the bot app!');
+});
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
 const client = new Client({
   intents: [
@@ -40,7 +53,7 @@ client.on('ready', () => {
 });
 
 client.on('messageCreate', async (message) => {
-  if (message.content.toLowerCase() === '!verify') {
+  if (message.content.toLowerCase() === '/verify') {
     if (message.member.roles.cache.some((role) => role.name === 'Verified')) {
       const alreadyVerifiedEmbed = new EmbedBuilder()
         .setColor('Green')
